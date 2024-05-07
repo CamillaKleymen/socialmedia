@@ -1,0 +1,8 @@
+fastapi
+sqlalchemy
+uvicorn
+python-multipart
+regex
+urllib
+psycopg2
+#psycopg2-binary(na servere budet linux)
