@@ -95,3 +95,4 @@ def get_some_hashtag_db(size, hashtag_name):
     posts = db.query(UserPost).filter_by(hashtag=hashtag_name).limit(size).all()
     return posts
 
+

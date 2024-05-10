@@ -3,36 +3,32 @@ from database.postservice import *
 
 comment_router = APIRouter(prefix="/comment", tags=["Comment management"])
 
-# Add comments
-@comment_router.post("/api/add_comment")
-async def add_comment(user_id: int, main_text: str):
-    new_comment = public_comment_db(user_id=user_id, main_text=main_text)
+@comment_router.post('/api/add_comment')
+async def add_comment(user_id: int, post_id: int, text: str):
+    new_comment = public_comment_db(user_id, post_id, text)
     if new_comment:
-        return {"status": 0, "message": "Comment successfully sent"}
-    return {"status": 0, "message": "Comment wasn't sent"}
+        return {'status': 1, 'message': 'Comment was successfully created'}
+    return {'status': 0, 'message': 'Comment wasnt created'}
 
-# Get comment
-@comment_router.get("/api/comments/")
-async def get_exact_post_comment(comment_id: int = 0):
-    comment = get_exact_post_comment(comment_id)
+
+@comment_router.get('/api/get_comment')
+async def get_comment(post_id: int):
+    comment = get_exact_post_comment_db(post_id)
     if comment:
-        return {"status": 1, "message": comment}
-    return {"status": 0, "message": "Comment not found"}
+        return {'status': 1, 'message': comment}
+    return {'status': 0, 'message': 'Comment not found'}
 
-# Change comment
-@comment_router.put("/api/comments/")
-async def change_user_comment(comment_id: int, text: str):
-    if comment_id and text:
-        change_user_comment(comment_id=comment_id, new_text=text)
-        return {"status": 1, "message": "Comment successfully changed"}
-    return {"status": 0, "message": "Error"}
+@comment_router.post('/api/change_comment')
+async def change_comment(comment_id: int, new_text: str):
+    comment_to_change = change_comment_text_db(comment_id, new_text)
+    if comment_to_change:
+        return {'status': 1, 'message': 'Comment was successfully changed'}
+    return {'status': 0, 'message': 'Error!'}
 
-# Delete comment
-@comment_router.delete("/api/comments/")
-async def delete_user_comment(comment_id: int):
+@comment_router.delete('/api/delete_comment')
+async def del_comment(comment_id: int):
     try:
-        delete_user_comment(comment_id)
-        return {"status": 1, "message": "Comment successfully deleted"}
+        delete_exact_comment_db(comment_id)
+        return {'status': 1, 'message': 'Comment was successfully deleted'}
     except:
-        return {"status": 0, "message": "Comment wasn't deleted"}
-
+        return {'status': 0, 'message': 'Error'}

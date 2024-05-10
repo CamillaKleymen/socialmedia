@@ -4,7 +4,7 @@ from api.photo_api.photo import photo_router
 from api.users_api.users import users_router
 from api.posts_api.posts import post_routers
 from api.comments_api.comments import comment_router
-
+from api.hashtag_api.hashtag import hashtag_router
 # connection to project DB and creation all DB
 
 Base.metadata.create_all(bind=engine)
@@ -13,3 +13,4 @@ app.include_router(photo_router)
 app.include_router(users_router)
 app.include_router(post_routers)
 app.include_router(comment_router)
+app.include_router(hashtag_router)
